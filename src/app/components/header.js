@@ -1,9 +1,10 @@
+import Image from "next/image";
 
 export default function Header() {
     return (
-        <header className="bg-cyan-500 w-4/5 h-24 body-font font-raleway font-bold pt-6 mb-4">  
+        <header className="bg-cyan-500 w-100 h-24 body-font font-raleway font-bold pt-6">  
             <div className="flex justify-center pb-2">
-                <img src="/images/icoon_pfp.png" alt=""/>
+                <Image width={30} height={25} src="/images/icoon_pfp.png" alt=""/>
             </div>
 
             <div className="flex justify-center pb-2 text-base">
