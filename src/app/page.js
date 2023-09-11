@@ -121,7 +121,7 @@ export default function Home() {
           height={50}
         />  
 
-        <footer className="justify-end mt-72">
+        <footer className="justify-end">
           <Send/>
         </footer>
          
