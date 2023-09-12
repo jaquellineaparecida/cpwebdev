@@ -1,4 +1,3 @@
-/* CAIO
 export default function Input() {
     return (
         <main className="flex justify-center ml-16 md:ml-2 md:mt-3 lg:mt-14">
@@ -10,4 +9,3 @@ export default function Input() {
         </main>
     )
 }
-*/
