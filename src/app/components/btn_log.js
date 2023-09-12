@@ -1,4 +1,3 @@
-/* FLORBELA
 export default function Btn() {
     return (
         <main className="flex justify-center">
@@ -8,5 +7,3 @@ export default function Btn() {
         </main>
     )
 }
-
-*/

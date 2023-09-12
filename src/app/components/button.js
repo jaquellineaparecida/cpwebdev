@@ -1,4 +1,3 @@
-/* FLORBELA
 export default function Botao({children}) {
     return (
         <main>
@@ -6,5 +5,3 @@ export default function Botao({children}) {
         </main>
     )
 }
-
-*/
