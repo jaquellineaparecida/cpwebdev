@@ -1,5 +1,3 @@
-/* ANDRE
-
 import Image from "next/image";
 
 export default function Imagem ({ src,width, height })  {
@@ -11,5 +9,3 @@ export default function Imagem ({ src,width, height })  {
         </div>
     )
 }
-
-*/
