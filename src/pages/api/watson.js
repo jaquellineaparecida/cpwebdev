@@ -5,6 +5,8 @@ const apiKey = "sAJ_Foe3jKjDMbn2Wu4Tst8EZeUhYuRpzisWur-9wNaG";
 const serviceUrl = "https://api.us-south.assistant.watson.cloud.ibm.com/instances/15619dc7-6766-4002-98bc-918b8fc0a0f4";
 const assistantId = "e5032239-6422-4497-a247-fadb3977e139";
 
+let sessions = {};
+
 const assistant = new AssistantV2({
     version: "2021-06-14",
     authenticator: new IamAuthenticator({
@@ -20,11 +22,15 @@ export default async function handler(req, res) {
 
             // Verifica se há um sessionId; se não houver, cria uma nova sessão
             if (!sessionId) {
-                const newSessionId = await createSession();
-                const response = await sendMessageToAssistant(message, newSessionId);
+                if (!sessions[req.ip]) {
+                    const newSessionId = await createSession();
+                    sessions[req.ip] = newSessionId;
+                }
+                const response = await sendMessageToAssistant(message, sessions[req.ip]);
                 res.status(200).json(response);
             } else {
                 const response = await sendMessageToAssistant(message, sessionId);
+                sessions[req.ip] = sessionId;
                 res.status(200).json(response);
             }
         } catch (error) {
