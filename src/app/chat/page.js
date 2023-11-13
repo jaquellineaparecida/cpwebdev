@@ -1,136 +1,80 @@
-import Send from '../components/Send'
+"use client"
+
 import Header from '../components/header'
 import Message from '../components/message'
-import Botao from '../components/button'
 import MessageUser from '../components/msguser'
-import Imagem from '../components/image'
+import Image from 'next/image'
+import { useState } from 'react'
 
 export default function ChatBot() {
+
+  const [message, setMessage] = useState('');
+  const [chat, setChat] = useState([]); // Estado para armazenar a conversa
+
+  const sendMessage = () => {
+    if (message.trim() === '') return; // Evita enviar mensagens vazias
+
+    // Adiciona a mensagem do usuário ao histórico do chat
+    setChat(prevChat => [
+      ...prevChat,
+      { text: message, type: 'user' }
+    ]);
+
+    // Envia a mensagem para o Watson Assistant (ou seu backend)
+    fetch('http://localhost:3000/api/watson', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message })
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Adiciona a resposta do chatbot ao histórico do chat
+      setChat(prevChat => [
+        ...prevChat,
+        { text: data.response, type: 'bot' }
+      ]);
+      setMessage(''); // Limpa o campo de mensagem após enviar
+    })
+    .catch(error => {
+      console.error('Erro:', error);
+      // Lidar com erros, se necessário
+    });
+  };
+
   return (
-      <main>
-          <Header/> 
+    <main>
+      <Header />
 
-         <Message> {'Olá seja bem-vindo ao bot de vistoria de bicicletas da Porto Seguro! Aqui faremos todo o processo de vistoria da sua bike, você está pronto?'} </Message>
+      {chat.map((chatItem, index) => {
+        if (chatItem.type === 'user') {
+          return (
+            <MessageUser key={index}>{chatItem.text}</MessageUser>
+          );
+        } else {
+          return (
+            <Message key={index}>{chatItem.text}</Message>
+          );
+        }
+      })}
 
-        <div className='flex flex-row'>
-          <Botao> {'Cancelar'} </Botao>
-
-          <Botao> {'Sim'} </Botao>
+      <div className="flex flex-row mt-6 ml-3 md:ml-12 md:mb-4 lg:flex lg:justify-center lg:mb-8">
+        <div className="flex justify-center mb-3 mr-2">
+          <Image className="md:w-10 md:h-10 md:mt-2 md:mr-4" width={20} height={15} src="/images/cam.svg" alt="" />
         </div>
 
-        <Message> {'Perfeito! Para começarmos a vistoria eu vou precisar de algumas informações. Primeiro insira o valor (preciso ou aproximado) da sua bike'} </Message>
-
-        <MessageUser> {'140.000 reais'} </MessageUser>
-
-        <Message> {'Muito bem! Agora para verificarmos a sua bike precisamos da nota fiscal ou do boleto da bicicleta que você esta cotando, você prefere inserir o boleto ou a nota fiscal?'} </Message>
-
-        <div className='flex flex-row'> 
-          <Botao> {'Boleto'} </Botao>
-
-          <Botao> {'Nota Fiscal'} </Botao>
-        </div>
-        
-        <MessageUser className='pr-1'> {'doc.docx'} </MessageUser>
-
-        <Message> {'Okay! Agora insira a marca da sua bicicleta'} </Message>
-
-        <div className='flex flex-row'> 
-          <Botao> {'Caloi'} </Botao>
-
-          <Botao> {'Cervélo'} </Botao>
-
-          <Botao> {'Trek'} </Botao>
-
-          <Botao> {'Cannondale'} </Botao>
+        <div>
+          <input type="text" className="border-0 bg-zinc-300 rounded-full w-80 h-8 pl-4 md:w-[38em] md:h-14 lg:h-14 lg:w-[80em]" onChange={(event) => setMessage(event.target.value)}
+          value={message} />
         </div>
 
-        <div className='md:flex md:justify-center md:mt-[-3.5em] lg:flex lg:justify-center lg:mt-[-3.5em]'>
-        <Botao> {'Scott'} </Botao>
-
-        </div>
-    
-        <Message> {'Okay! Agora insira o modelo da sua bicicleta'} </Message>
-
-        <div className='flex flex-row'> 
-          <Botao> {'Off Road'} </Botao>
-
-          <Botao> {'Elétrica'} </Botao>
-
-          <Botao> {'Urbana'} </Botao>
-
-          <Botao> {'Dobrável'} </Botao>
+        <div className="flex justify-center mb-2 mr-2 lg:mt-[-3px] lg:mr-1">
+          <Image className="md:w-20 md:h-16" width={35} height={35} src="/images/send.svg" alt="" onClick={sendMessage} />
         </div>
 
-        <div className='md:flex md:justify-center md:mt-[-3.5em] lg:flex lg:justify-center lg:mt-[-3.5em]'>
-         <Botao> {'Speed'} </Botao>
-        </div>
-        
+      </div>
 
-        <Message> {'Perfeito! Agora insira o número de série da sua bike!'} </Message>
-
-        <MessageUser> {'5586186'} </MessageUser>
-
-        <Message> {'Agora envie uma foto do número de série da sua bike'} </Message>
-
-        <Imagem  
-          src={'/images/nrserie.png'}
-          alt=""
-          width={150}
-          height={50}
-        />  
-        
-        <Message> {'Quase lá! A sua bike  possui algum acessório?'} </Message>
-
-        <div className='flex flex-row'> 
-          <Botao> {'Não'} </Botao>
-
-          <Botao> {'Sim'} </Botao>
-        </div>
-
-        <Message> {'Dê uma pequena descrição de TODOS os acessórios inclusos na sua bike.'} </Message>
-
-        <MessageUser> {'Sino frontal.'} </MessageUser>
-
-        <Message> {'Insira o valor do acessório.'} </Message>
-
-        <MessageUser> {'240.00 reais'} </MessageUser>
-
-        <Message> {'Estamos quase terminando! Agora mande as fotos da sua bike (2 laterias, 1 frontal e 1 traseira)'} </Message>
-
-        <Imagem  
-          src={'/images/bike1.png'}
-          alt=""
-          width={150}
-          height={50}
-        />  
-
-        <Imagem  
-          src={'/images/bike2.png'}
-          alt=""
-          width={150}
-          height={50}
-        />  
-
-        <Imagem  
-          src={'/images/bike3.png'}
-          alt=""
-          width={150}
-          height={50}
-        />  
-
-        <Imagem  
-          src={'/images/bike4.png'}
-          alt=""
-          width={150}
-          height={50}
-        />  
-
-        <Message> {'Parabéns! Sua vistoria foi finalizada com sucesso!'} </Message>
-
-        <footer className="justify-end">
-          <Send/>
-        </footer>
-         
-      </main> 
+    </main>
   )
 }
