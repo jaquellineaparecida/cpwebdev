@@ -59,7 +59,7 @@ export default function ChatBot() {
         }
       })}
 
-      <div className="flex flex-row mt-6 ml-3 md:ml-12 md:mb-4 lg:flex lg:justify-center lg:mb-8">
+      <div className="flex flex-row mt-[28em] ml-3 md:ml-12 md:mb-4 lg:flex lg:justify-center lg:mb-8 static">
         <div className="flex justify-center mb-3 mr-2">
           <Image className="md:w-10 md:h-10 md:mt-2 md:mr-4" width={20} height={15} src="/images/cam.svg" alt="" />
         </div>
@@ -69,7 +69,7 @@ export default function ChatBot() {
           value={message} />
         </div>
 
-        <div className="flex justify-center mb-2 mr-2 lg:mt-[-3px] lg:mr-1">
+        <div className="flex justify-center mb-2 mr-2 lg:mt-[-3px] lg:mr-1 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
           <Image className="md:w-20 md:h-16" width={35} height={35} src="/images/send.svg" alt="" onClick={sendMessage} />
         </div>
 
