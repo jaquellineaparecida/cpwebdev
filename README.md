@@ -4,8 +4,7 @@ Neste repositório é possível conhecer mais do projeto e de como ele foi feito
 ## Este é um projeto Next.js inicializado com create-next-app.
 
 ## Iniciando
-Primiero, clone o projeto para a sua máquina com o link: https://github.com/jaquellineaparecida/cpwebdev.git
-
+Primiero, clone o projeto para a sua máquina com o link: https://github.com/jaquellineaparecida/portobot
 Após o clone, baixe as dependencias do projeto:
 ``` bash
 npm i
