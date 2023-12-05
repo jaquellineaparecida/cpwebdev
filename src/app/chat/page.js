@@ -9,10 +9,10 @@ import { useState } from 'react'
 export default function ChatBot() {
 
   const [message, setMessage] = useState('');
-  const [chat, setChat] = useState([]); // Estado para armazenar a conversa
+  const [chat, setChat] = useState([]); // Armazenando a conversa em uma lista
 
   const sendMessage = () => {
-    if (message.trim() === '') return; // Evita enviar mensagens vazias
+    if (message.trim() === '') return; // Impossibilita o envio de mensagens vazias
 
     // Adiciona a mensagem do usuário ao histórico do chat
     setChat(prevChat => [
@@ -20,7 +20,7 @@ export default function ChatBot() {
       { text: message, type: 'user' }
     ]);
 
-    // Envia a mensagem para o Watson Assistant (ou seu backend)
+    // Enviando a mensagem para a api Watson Assistant
     fetch('http://localhost:3000/api/watson', {
       method: 'POST',
       headers: {
@@ -30,16 +30,15 @@ export default function ChatBot() {
     })
     .then(response => response.json())
     .then(data => {
-      // Adiciona a resposta do chatbot ao histórico do chat
+      // Adicionando a resposta do chatbot ao histórico do chat
       setChat(prevChat => [
         ...prevChat,
         { text: data.response, type: 'bot' }
       ]);
-      setMessage(''); // Limpa o campo de mensagem após enviar
+      setMessage(''); // Limpando o campo de mensagem após enviar
     })
     .catch(error => {
       console.error('Erro:', error);
-      // Lidar com erros, se necessário
     });
   };
 
@@ -66,7 +65,15 @@ export default function ChatBot() {
 
         <div>
           <input type="text" className="border-0 bg-zinc-300 rounded-full w-80 h-8 pl-4 md:w-[38em] md:h-14 lg:h-14 lg:w-[80em]" onChange={(event) => setMessage(event.target.value)}
-          value={message} />
+          value={message} 
+          // Função para que o usuário envie uma mensagem a partir da tecla enter 
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              sendMessage();
+            }
+          }}
+          
+          />
         </div>
 
         <div className="flex justify-center mb-2 mr-2 lg:mt-[-3px] lg:mr-1 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">
