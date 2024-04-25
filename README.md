@@ -6,7 +6,7 @@ Neste repositório é possível conhecer mais do projeto e de como ele foi feito
 * Por enquanto ainda não é possível fazer o envio de foto ou documentos, use como texto "foto.jpg" ou para documentos "nf.pdf".
 * Após o envio das "fotos", o bot pode enviar uma mensagem de sucesso ou uma mensagam negativa falando que sua vistoria foi interrompida, estas mensagens são aleatórias e indicam a finalização da vistoria.
 * Após a finalização da vistoria não é possível inicializar outro chat, é preciso "matar" a aplicação e subir novamente.
-* O deploy deste projeto não está disponível pois a aplicação consome uma API local.
+* O deploy deste projeto não está disponível pois a aplicação consome uma API externa.
 
 ## Este é um projeto Next.js inicializado com create-next-app.
 
